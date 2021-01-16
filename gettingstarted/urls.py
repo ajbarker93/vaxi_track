@@ -19,4 +19,7 @@ urlpatterns = [
     path("", hello.views.userpage, name="userpage"),
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
+    path("userpage/", hello.views.userpage, name="userpage"),
+    path("userpage", hello.views.userpage, name="userpage"),
+    path("userpage.html", hello.views.userpage, name="userpage")
 ]
