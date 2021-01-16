@@ -12,6 +12,10 @@ def userpage(request):
     # return HttpResponse('Hello from Python!')
     return render(request, "userpage.html")
 
+def vaxpage(request):
+    # return HttpResponse('Hello from Python!')
+    return render(request, "vaxpage.html")
+
 def db(request):
 
     greeting = Greeting()

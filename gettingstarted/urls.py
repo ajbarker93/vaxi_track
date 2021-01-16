@@ -21,5 +21,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("userpage/", hello.views.userpage, name="userpage"),
     path("userpage", hello.views.userpage, name="userpage"),
-    path("userpage.html", hello.views.userpage, name="userpage")
+    path("userpage.html", hello.views.userpage, name="userpage"),
+    path("vaxpage/", hello.views.vaxpage, name="vaxpage"),
+    path("vaxpage", hello.views.vaxpage, name="vaxpage"),
+    path("vaxpage.html", hello.views.vaxpage, name="vaxpage")
 ]
