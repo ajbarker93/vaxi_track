@@ -9,15 +9,15 @@
       <img src="{% static 'vt_logo_v1.png'%}"/>
     </a>
     <h1>VaxiTrack</h1>
-    <p>Log spare Covid-19 vaccines today</p>
+    <p>Log today's spare Covid-19 vaccines</p>
     <form>
       <input type="text" placeholder="Centre ID" id="cname" name="cname" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
       <input type="text" placeholder="Doses today" id="doses" name="doses" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
       <input type="text" placeholder="At Time" id="start_time" name="start_time" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
       <select name="vax_type" required style="font-size: 14pt; height: 45px; width:150px; color=black;">
         <option style="color:black background-color: white" value="">Vaccine type</option>
-        <option style="color:black background-color: white" value="oxford-az">Oxford-AZ</option>
-        <option style="color:black background-color: white" value="pfizer">Pfizer</option>
+        <option class="blackText" style="color:black background-color: white" value="oxford-az">Oxford-AZ</option>
+        <option class="blackText" style="color:black background-color: white" value="pfizer">Pfizer</option>
       </select>
       <hr />
       <type="button" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-download"></span> Log
