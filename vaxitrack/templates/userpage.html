@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <a href="/" class="lang-logo">
+      <img src="{% static 'vt_logo_v1.png'%}"/>
+    </a>
+    <h1>VaxiTrack</h1>
+    <p>Find a local Covid-19 vaccine. Type in your postcode below</p>
+    <form action="/build/" method="post" enctype="multipart/form-data">
+      <input type="text" placeholder="Postcode" id="cpcode" name="cpcode" style="font-size: 14pt; height: 48px; width:100px; color=black;">  <type="button" class="btn btn-lg btn-white"><span class="glyphicon glyphicon-flash"></span> Find
+    </form>
+  </div>
+</div>
+<div class="container">
+  <div class="alert alert-info text-center" role="alert">
+    <p>This is where a list of locations will pop up (within 10 miles).</p>
+  </div>
+  <hr>
+</div>
+<div class="container">
+  <p class="center"><img src="static/ox_map_v1.png"/></p>
+</div>
+
+{% include 'small_footer.html' %}
+{% endblock %}
