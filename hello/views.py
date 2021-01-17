@@ -16,6 +16,10 @@ def vaxpage(request):
     # return HttpResponse('Hello from Python!')
     return render(request, "vaxpage.html")
 
+def regpage(request):
+    # return HttpResponse('Hello from Python!')
+    return render(request, "regpage.html")
+
 def db(request):
 
     greeting = Greeting()

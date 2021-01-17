@@ -24,5 +24,8 @@ urlpatterns = [
     path("userpage.html", hello.views.userpage, name="userpage"),
     path("vaxpage/", hello.views.vaxpage, name="vaxpage"),
     path("vaxpage", hello.views.vaxpage, name="vaxpage"),
-    path("vaxpage.html", hello.views.vaxpage, name="vaxpage")
+    path("vaxpage.html", hello.views.vaxpage, name="vaxpage"),
+    path("regpage/", hello.views.regpage, name="regpage"),
+    path("regpage", hello.views.regpage, name="regpage"),
+    path("regpage.html", hello.views.regpage, name="regpage")
 ]

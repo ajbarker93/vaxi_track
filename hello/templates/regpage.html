@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <a href="/" class="lang-logo">
+      <img src="{% static 'vt_logo_v1.png'%}"/>
+    </a>
+    <h1>VaxiTrack</h1>
+    <p>Log spare Covid-19 vaccines today.</p>
+    <form>
+      <input type="text" placeholder="Centre ID" id="cname" name="cname" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
+      <input type="text" placeholder="Doses today" id="doses" name="doses" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
+      <input type="text" placeholder="At Time" id="start_time" name="start_time" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
+      <select name="vax_type" required style="font-size: 14pt; height: 45px; width:150px; color=black;">
+        <option style="color:black" value="" disabled selected hidden>Vaccine type</option>
+        <option value="oxford-az">Oxford-AZ</option>
+        <option value="pfizer">Pfizer</option>
+      </select>
+      <hr />
+      <type="button" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-download"></span> Log
+    </form>
+  </div>
+</div>
+<div class="container">
+  <div class="alert alert-info text-center" role="alert">
+    <p>This is where a list of locations will pop up (within 10 miles).</p>
+  </div>
+  <hr>
+</div>
+
+
+{% endblock %}
