@@ -9,27 +9,21 @@
       <img src="{% static 'vt_logo_v1.png'%}"/>
     </a>
     <h1>VaxiTrack</h1>
-    <p>Log spare Covid-19 vaccines today.</p>
+    <p>Register on VaxiTrack as a vaccination centre</p>
     <form>
-      <input type="text" placeholder="Centre ID" id="cname" name="cname" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
-      <input type="text" placeholder="Doses today" id="doses" name="doses" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
-      <input type="text" placeholder="At Time" id="start_time" name="start_time" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
-      <select name="vax_type" required style="font-size: 14pt; height: 45px; width:150px; color=black;">
-        <option style="color:black" value="" disabled selected hidden>Vaccine type</option>
-        <option value="oxford-az">Oxford-AZ</option>
-        <option value="pfizer">Pfizer</option>
-      </select>
+      <input type="text" placeholder="Centre name" id="cname" name="cname" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
+      <input type="text" placeholder="Centre postcode" id="cpcode" name="cpcode" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
+      <input type="text" placeholder="NHS email" id="nhs_email" name="nhs_email" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
       <hr />
-      <type="button" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-download"></span> Log
+      <type="button" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-download"></span> Register
     </form>
   </div>
 </div>
 <div class="container">
   <div class="alert alert-info text-center" role="alert">
-    <p>This is where a list of locations will pop up (within 10 miles).</p>
+    <p>We will send a 6-digit code to your NHS email to use when logging spare vaccines.</p>
   </div>
   <hr>
 </div>
-
 
 {% endblock %}
