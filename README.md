@@ -1,45 +1,20 @@
-# Python: Getting Started
+# VaxiTrack: no vaccine should go to waste
 
-A barebones Django app, which can easily be deployed to Heroku.
+This is a very simple app that has been built quickly. If you think it could be improved, please feel free to make changes to the code.
 
-This application supports the [Getting Started with Python on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python) article - check it out.
+## Overview
 
-## Running Locally
+The ambition of this app is to allow vaccine centres to quickly log spare vaccine doses, which may arise due to missed appointments, miscalculations or from spare built into the normal vaccine programme for that day. Vaccine centres can quickly log how many vaccines, which vaccine type, and what time they will be available. Users can check where the nearest vaccines are (limited to a 10 mile radius) and register to receive these.
 
-Make sure you have Python 3.7 [installed locally](http://install.python-guide.org). To push to Heroku, you'll need to install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli), as well as [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup).
+All clinical logging is out of our hands, and we take no responsibility for delivery, follow-ups or information about the vaccine - we simply help clinicians use their spare vaccines.
 
-```sh
-$ git clone https://github.com/heroku/python-getting-started.git
-$ cd python-getting-started
+With fewer vaccines wasted, we can see this pandemic off quicker!
 
-$ python3 -m venv getting-started
-$ pip install -r requirements.txt
+## Site structure
 
-$ createdb python_getting_started
+This is a django website that logs spare vaccine information provided by vaccine centres and shows users where the nearest spares are to their location. The site is currently hosted on Heroku.
 
-$ python manage.py migrate
-$ python manage.py collectstatic
 
-$ heroku local
-```
-
-Your app should now be running on [localhost:5000](http://localhost:5000/).
-
-## Deploying to Heroku
-
-```sh
-$ heroku create
-$ git push heroku main
-
-$ heroku run python manage.py migrate
-$ heroku open
-```
-or
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
-## Documentation
-
-For more information about using Python on Heroku, see these Dev Center articles:
-
-- [Python on Heroku](https://devcenter.heroku.com/categories/python)
+## License and copyright
+Licensing is TBD, but the site may freely be used at XXX.
+Copyright is asserted over all code contained within this repo (AJ Barker, RMT Staruch, TF Kirk, 2021).
