@@ -4,17 +4,17 @@ from django.template.loader import render_to_string
 from . import core
 from .models import Counter
 
-def route_resonse_html(data_dict, csrf_token=None):
+import numpy as np
+from random import randint
 
-    try:
-        idcol = data_dict.get('idcol', 'A')
+def centre_register_html(data_dict, csrf_token=None):
 
         # Email shot is just the same HTML as we're serving to the browser
         if data_dict['email']:
-            fname = data_dict['fname']
-            email = data_dict['email']
-            send_mail(f'Vaxitrack login for {fname}', "",
-                    'vaxitrack@gmail.com', [email], fail_silently=False,
+            id = randint(100000, 999999)
+            fname = data_dict['cname']
+            email = data_dict['nhs_email']
+            send_mail(f'Vaxitrack login for {cname} is {id}', "",
+                    'vaxitrack@gmail.com', [nhs_email], fail_silently=False,
                     html_message=html)
-
         return html
