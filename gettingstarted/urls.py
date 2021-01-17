@@ -1,0 +1,31 @@
+from django.urls import path, include
+
+from django.contrib import admin
+
+admin.autodiscover()
+
+import hello.views
+
+# To add a new path, first import the app:
+# import blog
+#
+# Then add the new path:
+# path('blog/', blog.urls, name="blog")
+#
+# Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
+
+urlpatterns = [
+    path("", hello.views.index, name="index"),
+    path("", hello.views.userpage, name="userpage"),
+    path("db/", hello.views.db, name="db"),
+    path("admin/", admin.site.urls),
+    path("userpage/", hello.views.userpage, name="userpage"),
+    path("userpage", hello.views.userpage, name="userpage"),
+    path("userpage.html", hello.views.userpage, name="userpage"),
+    path("vaxpage/", hello.views.vaxpage, name="vaxpage"),
+    path("vaxpage", hello.views.vaxpage, name="vaxpage"),
+    path("vaxpage.html", hello.views.vaxpage, name="vaxpage"),
+    path("regpage/", hello.views.regpage, name="regpage"),
+    path("regpage", hello.views.regpage, name="regpage"),
+    path("regpage.html", hello.views.regpage, name="regpage")
+]

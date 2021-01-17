@@ -18,6 +18,8 @@ This is a django website that logs spare vaccine information provided by vaccine
 ## License and copyright
 Licensing is TBD, but the site may freely be used at XXX.
 Copyright is asserted over all code contained within this repo (AJ Barker, RMT Staruch, TF Kirk, 2021).
+<<<<<<< HEAD
+=======
 
 
 
@@ -43,3 +45,4 @@ u.save()
 ```
 
 then exit the shell, and run the server as usual 
+>>>>>>> tk
