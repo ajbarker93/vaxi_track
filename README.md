@@ -18,25 +18,20 @@ This is a django website that logs spare vaccine information provided by vaccine
 ## License and copyright
 Licensing is TBD, but the site may freely be used at XXX.
 Copyright is asserted over all code contained within this repo (AJ Barker, RMT Staruch, TF Kirk, 2021).
-<<<<<<< HEAD
-=======
 
 
-
-
-
-## set up the DB with a dummy user and centre 
+## Set up the DB with a dummy user and centre
 first
 ```
 $ python manage.py migrate
 $ python manage.py shell
 ```
-then: 
+then:
 ```python
 from vaxitrack.models import User, Centre
 c = Centre()
 c.postcode = "OX13BH"
-c.doses_available = 5 
+c.doses_available = 5
 c.save()
 
 u = User()
@@ -44,5 +39,4 @@ u.postcode = "OX14AU"
 u.save()
 ```
 
-then exit the shell, and run the server as usual 
->>>>>>> tk
+then exit the shell, and run the server as usual.
