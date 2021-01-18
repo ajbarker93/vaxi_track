@@ -20,7 +20,11 @@ def userpage(request):
 
 def vaxpage(request):
     # return HttpResponse('Hello from Python!')
-    return render(request, "vaxpage.html")
+    user = User.objects.all()[0]
+    cents = Centre.objects.all()
+    dists = [ np.linalg.norm(user.location - c.location, ord=2) for c in cents ]
+    cent_dists = list(zip(cents, dists))
+    return render(request, "vaxpage.html", {'cent_dists': cent_dists})
 
 def regpage(request):
     # return HttpResponse('Hello from Python!')

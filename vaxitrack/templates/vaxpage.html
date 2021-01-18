@@ -19,7 +19,7 @@
         <option value="oxford-az">Oxford-AZ</option>
         <option value="pfizer">Pfizer</option>
       </select>
-      <hr />
+      <hr>
       <type="button" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-download"></span> Log
     </form>
   </div>
@@ -27,6 +27,9 @@
 <div class="container">
   <div class="alert alert-info text-center" role="alert">
     <p>This is where a list of locations will pop up (within 10 miles).</p>
+    {% for c_d in cent_dists %}
+      <p> Centre {{c_d.0.id}} has {{c_d.0.doses_available}} doses available, at a distance of {{c_d.1}} miles. </p>
+    {% endfor %}
   </div>
   <hr>
 </div>

@@ -24,8 +24,8 @@
   </div>
   <hr>
 </div>
-<div class="container">
-  <p class="center"><img src="static/ox_map_v1.png"/></p>
+<div class="img-container">
+  {% load static %}<img src="{% static 'ox_map_v1.png' %}">
 </div>
 
 {% include 'small_footer.html' %}
