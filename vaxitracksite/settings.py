@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-import os 
+import os
 import json
 import django_heroku
 
@@ -27,7 +27,7 @@ if os.path.exists('keys.json'):
     keys = json.load(open('keys.json', 'r'))
     SECRET_KEY = keys['SECRET_KEY']
     DEBUG = True
-else: 
+else:
     SECRET_KEY = os.environ['SECRET_KEY']
     DEBUG = False
 
@@ -127,5 +127,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Activate Django-Heroku. Needs to come last. 
+# Activate Django-Heroku. Needs to come last.
 django_heroku.settings(locals())
