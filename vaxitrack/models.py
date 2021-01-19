@@ -14,6 +14,8 @@ class Centre(models.Model):
     longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
     email = models.EmailField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @classmethod
     def create(cls, postcode, email):
@@ -62,6 +64,8 @@ class User(models.Model):
     longitude = models.FloatField(default=0) 
     postcode = models.CharField(max_length=10)
     assigned_centre = models.IntegerField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @classmethod
     def create(cls, postcode, email, age):
