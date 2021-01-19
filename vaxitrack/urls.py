@@ -8,4 +8,6 @@ urlpatterns = [
     path('userpage/', views.userpage, name="userpage"),
     path('vaxpage/', views.vaxpage, name="vaxpage"),
     path('regpage/', views.regpage, name="regpage"),
+    path('build/', views.regpage, name="regpage"),
+    path('build/', views.vaxpage, name="vaxpage")
 ]

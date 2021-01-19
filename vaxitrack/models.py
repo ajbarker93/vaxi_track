@@ -1,7 +1,7 @@
 from django.db import models
-from django.core import validators 
+from django.core import validators
 
-import numpy as np 
+import numpy as np
 
 class Centre(models.Model):
     doses_available = models.IntegerField(
@@ -15,7 +15,7 @@ class Centre(models.Model):
         """Latitude/longitude coordinates as array"""
         return np.array((self.latitude, self.longitude))
 
-    def set_doses(self, new_value): 
+    def set_doses(self, new_value):
         """
         Set the value of doses available
         Not to be used for matching users to centres
@@ -28,7 +28,7 @@ class Centre(models.Model):
 class User(models.Model):
     email = models.EmailField()
     latitude = models.FloatField(default=0)
-    longitude = models.FloatField(default=0) 
+    longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
     assigned_centre = models.IntegerField(null=True)
 
@@ -41,7 +41,7 @@ class User(models.Model):
         """Assign user to a centre, reduce the doses available at that centre"""
 
         cent = Centre.objects.filter(id=centre_id)[0]
-        if cent.doses_available < 1: 
+        if cent.doses_available < 1:
             raise ValueError("Centre does not have any doses available")
 
         self.assigned_centre = centre_id

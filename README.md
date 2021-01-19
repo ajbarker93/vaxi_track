@@ -32,10 +32,12 @@ from vaxitrack.models import User, Centre
 c = Centre()
 c.postcode = "OX13BH"
 c.doses_available = 5
+c.email = "ajbarker93@gmail.com"
 c.save()
 
 u = User()
 u.postcode = "OX14AU"
+u.email = "ajbarker93@gmail.com"
 u.save()
 ```
 
