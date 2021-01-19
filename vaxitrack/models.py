@@ -55,6 +55,8 @@ class Centre(models.Model):
 
 
 class User(models.Model):
+    age = models.IntegerField(
+                        validators=[validators.MinValueValidator(0)], default=0)
     email = models.EmailField(null=True)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0) 
@@ -62,7 +64,7 @@ class User(models.Model):
     assigned_centre = models.IntegerField(null=True)
 
     @classmethod
-    def create(cls, postcode, email):
+    def create(cls, postcode, email, age):
 
         if User.objects.filter(email__exact=email): 
             raise ValueError("A user with that email already exists")
@@ -73,11 +75,12 @@ class User(models.Model):
         u.latitude = lat_long[0]
         u.longitude = lat_long[1]
         u.postcode = postcode 
+        u.age = age 
         u.save() 
         return u
 
     def __repr__(self):
-        s = (f"User id: {self.id}, postcode: {self.postcode}, "
+        s = (f"User id: {self.id}, age: {self.age}, postcode: {self.postcode}, "
             f"lat_long: {self.location}, assigned_centre: {self.assigned_centre}")
         return s 
 
