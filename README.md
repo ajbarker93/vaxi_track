@@ -2,6 +2,15 @@
 
 This is a very simple app that has been built quickly. If you think it could be improved, please feel free to make changes to the code.
 
+## To Do:
+
+- Produce random centre ID when centre signs up
+- When a centre logs, check the ID is in our list of IDs before adding. For security reasons, we shouldn't store the centre email, rather just check the centre ID is in our list (and hope for the best at this stage).
+- Add a 'select' button next to the vaccine centre entries. Then go to a 'confirm' page where the user types in their email to select the centre.
+- Generally hooking everything up.
+
+
+
 ## Overview
 
 The ambition of this app is to allow vaccine centres to quickly log spare vaccine doses, which may arise due to missed appointments, miscalculations or from spare built into the normal vaccine programme for that day. Vaccine centres can quickly log how many vaccines, which vaccine type, and what time they will be available. Users can check where the nearest vaccines are (limited to a 10 mile radius) and register to receive these.
@@ -21,7 +30,10 @@ Copyright is asserted over all code contained within this repo (AJ Barker, RMT S
 
 
 ## Set up the DB with a dummy user and centre
-first
+
+You will first need to ensure you have downloaded PostGreSQL (Homebrew makes this easy: download Homebrew then run "brew install postgresql"), then "pip install" the django and django_heroku packages.
+
+To launch a server db and put some data in it, first:
 ```
 $ python manage.py migrate
 $ python manage.py shell
@@ -41,4 +53,6 @@ u.email = "ajbarker93@gmail.com"
 u.save()
 ```
 
-then exit the shell, and run the server as usual.
+then exit the shell.
+
+Run "python manage.py runserver" to launch a server. Open the URL.
