@@ -25,9 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 if os.path.exists('keys.json'):
     keys = json.load(open('keys.json', 'r'))
     SECRET_KEY = keys['SECRET_KEY']
+    GAPI_KEY = keys['GAPI_KEY']
+    EMAIL_HOST_PASSWORD = keys['GMAIL_KEY']
     DEBUG = True
 else: 
     SECRET_KEY = os.environ['SECRET_KEY']
+    GAPI_KEY = os.environ['GAPI_KEY']
+    EMAIL_HOST_PASSWORD = os.environ['GMAIL_KEY']
     DEBUG = False
 
 
@@ -43,7 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'vaxitrack'
+    'vaxitrack',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -119,6 +124,13 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# Email settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'vaxitrack@gmail.com'
+
 
 
 # Static files (CSS, JavaScript, Images)

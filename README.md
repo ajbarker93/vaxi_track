@@ -22,24 +22,7 @@ Copyright is asserted over all code contained within this repo (AJ Barker, RMT S
 
 
 
-
-## set up the DB with a dummy user and centre 
-first
+To load dummy data into the db, run: 
 ```
-$ python manage.py migrate
-$ python manage.py shell
+$ python manage.py runscript dummy
 ```
-then: 
-```python
-from vaxitrack.models import User, Centre
-c = Centre()
-c.postcode = "OX13BH"
-c.doses_available = 5 
-c.save()
-
-u = User()
-u.postcode = "OX14AU"
-u.save()
-```
-
-then exit the shell, and run the server as usual 
