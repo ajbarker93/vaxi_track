@@ -33,6 +33,10 @@ Copyright is asserted over all code contained within this repo (AJ Barker, RMT S
 
 You will first need to ensure you have downloaded PostGreSQL (Homebrew makes this easy: download Homebrew then run "brew install postgresql"), then "pip install" the django and django_heroku packages.
 
+To load dummy data into the db, run: 
+```
+$ python manage.py runscript dummy
+```
 To launch a server db and put some data in it, first:
 ```
 $ python manage.py migrate

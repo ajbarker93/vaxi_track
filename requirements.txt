@@ -2,3 +2,5 @@ django
 gunicorn
 django-heroku
 numpy
+googlemaps
+django-extensions
