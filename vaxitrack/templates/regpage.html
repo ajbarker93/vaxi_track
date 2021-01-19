@@ -10,14 +10,15 @@
     </a>
     <h1>VaxiTrack</h1>
     <p>Register on VaxiTrack as a vaccination centre</p>
-    <form action="/build/" method="post" enctype="multipart/form-data">
-      <input type="text" placeholder="Centre name" id="cname" name="cname" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
-      <input type="text" placeholder="Centre postcode" id="cpcode" name="cpcode" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
-      <input type="text" placeholder="NHS email" id="nhs_email" name="nhs_email" style="font-size: 14pt; height: 45px; width:150px; color=black;"><br>
-      <hr />
-      <type="button" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-download"></span> Register
+    <form action="/build/" method="post" enctype="multipart/form-data" onsubmit="alert('Thank you, you will receive an email with your ID shortly.');">
+        {% csrf_token %}
+        <table>
+            {{ form }}
+        </table>
+        <input type="submit" value="Submit" id="submit_button"
+      style="background-color:#7646c1; font-size:120%;">
     </form>
-  </div>
+    </div>
 </div>
 <div class="container">
   <div class="alert alert-info text-center" role="alert">

@@ -3,7 +3,7 @@ from django.core import validators
 from django.core.mail import send_mail
 from django.conf import settings
 
-import numpy as np 
+import numpy as np
 
 from .core import geocode
 
@@ -41,7 +41,7 @@ class Centre(models.Model):
         """Latitude/longitude coordinates as array"""
         return np.array((self.latitude, self.longitude))
 
-    def set_doses(self, new_value): 
+    def set_doses(self, new_value):
         """
         Set the value of doses available
         Not to be used for matching users to centres
@@ -61,7 +61,7 @@ class User(models.Model):
                         validators=[validators.MinValueValidator(0)], default=0)
     email = models.EmailField(null=True)
     latitude = models.FloatField(default=0)
-    longitude = models.FloatField(default=0) 
+    longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
     assigned_centre = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -105,7 +105,7 @@ class User(models.Model):
         """
 
         cent = Centre.objects.filter(id=centre_id)[0]
-        if cent.doses_available < 1: 
+        if cent.doses_available < 1:
             raise ValueError("Centre does not have any doses available")
 
         self.assigned_centre = centre_id

@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-import os 
+import os
 import json
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +29,7 @@ if os.path.exists('keys.json'):
     GAPI_KEY = keys['GAPI_KEY']
     EMAIL_HOST_PASSWORD = keys['GMAIL_KEY']
     DEBUG = True
-else: 
+else:
     SECRET_KEY = os.environ['SECRET_KEY']
     GAPI_KEY = os.environ['GAPI_KEY']
     EMAIL_HOST_PASSWORD = os.environ['GMAIL_KEY']
@@ -136,4 +137,8 @@ EMAIL_HOST_USER = 'vaxitrack@gmail.com'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+
+# Activate Django-Heroku. Needs to come last.
+django_heroku.settings(locals())
