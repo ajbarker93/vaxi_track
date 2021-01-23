@@ -42,7 +42,7 @@ class Centre(models.Model):
     centre_name = models.CharField(max_length=30,default='')
     vax_type = models.CharField(max_length=30,default='')
     email = models.EmailField(null=True)
-    VaxiTrack_ID = models.CharField(max_length=10)
+    VaxiTrack_ID = models.IntegerField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     available_at = models.DateTimeField(null=True)
     updated_at = models.DateTimeField(auto_now=True)
