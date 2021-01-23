@@ -4,3 +4,4 @@ django-heroku
 numpy
 googlemaps
 django-extensions
+django-utils

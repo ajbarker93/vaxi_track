@@ -40,9 +40,10 @@ class Centre(models.Model):
     longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
     centre_name = models.CharField(max_length=30,default='')
-    vax_type = models.CharField(max_length=30,default='')
+    # Set 0 to be oxford and 1 to be pfizer
+    vax_type = models.IntegerField(default=0,choices=(('0','Oxford-AZ'),('1','Pfizer')))
     email = models.EmailField(null=True)
-    VaxiTrack_ID = models.IntegerField(max_length=10)
+    VaxiTrack_ID = models.IntegerField(default='0')
     created_at = models.DateTimeField(auto_now_add=True)
     available_at = models.DateTimeField(null=True)
     updated_at = models.DateTimeField(auto_now=True)

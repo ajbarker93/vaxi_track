@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vaxitrack',
     'django_extensions',
-    'colorfield'
 ]
 
 MIDDLEWARE = [
