@@ -5,3 +5,5 @@ numpy
 googlemaps
 django-extensions
 django-utils
+redis
+django-q
