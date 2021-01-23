@@ -56,12 +56,12 @@ class Centre(models.Model):
 
         cent = cls()
         lat_long = geocode(postcode)
-        vt_int = randint(1e5,1e6-1)
-        cent.VaxiTrack_ID = vt_int
         cent.email = email
         cent.latitude = lat_long[0]
         cent.longitude = lat_long[1]
         cent.postcode = postcode
+        cent.save()
+        cent.VaxiTrack_ID = "%06d" % int(cent.id)
         cent.save()
         return cent
 
