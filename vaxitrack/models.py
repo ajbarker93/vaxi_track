@@ -56,12 +56,12 @@ class Centre(models.Model):
 
         cent = cls()
         lat_long = geocode(postcode)
-        vt_int = randint(1e5,1e6-1)
-        cent.vaxitrack_ID = vt_int
         cent.email = email
         cent.latitude = lat_long[0]
         cent.longitude = lat_long[1]
         cent.postcode = postcode
+        cent.save()
+        cent.VaxiTrack_ID = "%06d" % int(cent.id)
         cent.save()
         return cent
 
@@ -205,7 +205,7 @@ class User(models.Model):
 
     def send_vax_email(self,centre_id):
 
-        cent = Centre.objects.filter(id=centre_id).get()
+        cent = Centre.objects.filter(id__exact=centre_id).get()
 
         msg = f"This is an email to a User. We have found you a vaccine at {cent.name}, {cent.postcode}. Please attend at {cent.available_at}."
         send_mail('Vaxitrack', msg, settings.EMAIL_HOST_USER,
