@@ -130,7 +130,7 @@ class Centre(models.Model):
         dists = np.zeros(len(pats), dtype=float32)
         for pat in enumerate(pats):
             pat_loc = (pat.latitude, pat.longitude)
-            dists[pat] = np.linalg.norm(centre_loc - pat_loc, ord=2, axis=-1) 
+            dists[pat] = np.linalg.norm(centre_loc - pat_loc, ord=2, axis=-1)
             in_range = (dists <= max_dist)
 
         return emails[in_range], dists[in_range]
@@ -143,6 +143,7 @@ class User(models.Model):
     longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
     assigned_centre = models.CharField(max_length=10,default='')
+    assigned_centre_name = models.CharField(max_length=20,default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -172,22 +173,23 @@ class User(models.Model):
         """Latitude/longitude coordinates as array"""
         return np.array((self.latitude, self.longitude))
 
-    def assign_dose(self, centre_id):
+    def assign_dose(self, centre_postcode):
         """
         Assign user to a centre, reduce the doses available at that centre.
 
         Args:
-            id (int): centre to assign to
+            centre_postcode (char): centre postcode to assign to
 
         Raises:
             ValueError if the centre does not have any doses available
         """
 
-        cent = Centre.objects.filter(id=centre_id)[0]
+        cent = Centre.objects.filter(postcode=centre_postcode)[0]
         if cent.doses_available < 1:
             raise ValueError("Centre does not have any doses available")
 
-        self.assigned_centre = centre_id
+        self.assigned_centre = centre_postcode
+        self.assigned_centre_name = cent.centre_name
         cent.doses_available -= 1
         cent.save()
         self.save()
