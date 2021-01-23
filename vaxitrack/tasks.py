@@ -24,10 +24,7 @@ def find_and_assign(data_dict):
 
     # Find number and info on centre from which to assign
     num_to_assign = data_dict['doses_available']
-    centre_id = data_dict['VaxiTrack_ID']
-    postcode = data_dict['postcode']
-    vax_time = data_dict['available_at']
-    centre_name = data_dict['centre_name']
+    centre_id = data_dict['id']
 
     # Find emails of patients within range
     emails = Centre.find_closest_patients(data_dict)
@@ -43,10 +40,10 @@ def find_and_assign(data_dict):
 
     # Inform the selected patients they've been assigned to a centres
     # Update assigned centre for pats_selected
-    pats_selected.assign_dose(postcode)
+    pats_selected.assign_dose(centre_id)
 
     # Send email to those with assigned centres
-    pats_selected.send_vax_email(centre_name,postcode,vax_time)
+    pats_selected.send_vax_email(centre_id)
 
     # Increment the counter with assigned doses
     #Counter.increment(len(routes), df.shape[0])

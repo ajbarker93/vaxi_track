@@ -142,7 +142,8 @@ class User(models.Model):
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
-    assigned_centre = models.CharField(max_length=10,default='')
+    assigned_centre_id = models.CharField(max_length=10,default='')
+    assigned_centre_postcode = models.CharField(max_length=10,default='')
     assigned_centre_name = models.CharField(max_length=20,default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -173,7 +174,7 @@ class User(models.Model):
         """Latitude/longitude coordinates as array"""
         return np.array((self.latitude, self.longitude))
 
-    def assign_dose(self, centre_postcode):
+    def assign_dose(self, centre_id):
         """
         Assign user to a centre, reduce the doses available at that centre.
 
@@ -184,12 +185,11 @@ class User(models.Model):
             ValueError if the centre does not have any doses available
         """
 
-        cent = Centre.objects.filter(postcode=centre_postcode)[0]
+        cent = Centre.objects.filter(id=centre_id).get()
         if cent.doses_available < 1:
             raise ValueError("Centre does not have any doses available")
 
-        self.assigned_centre = centre_postcode
-        self.assigned_centre_name = cent.centre_name
+        self.assigned_centre_id = cent.id
         cent.doses_available -= 1
         cent.save()
         self.save()
@@ -199,7 +199,10 @@ class User(models.Model):
         send_mail('Vaxitrack', msg, settings.EMAIL_HOST_USER,
                     [self.email], fail_silently=False)
 
-    def send_vax_email(self,centre_name,centre_postcode,vax_time):
-        msg = f"This is an email to a User. We have found you a vaccine at {centre_name}, {centre_postcode}. Please attend at {vax_time}."
+    def send_vax_email(self,centre_id):
+
+        cent = Centre.objects.filter(id=centre_id).get()
+
+        msg = f"This is an email to a User. We have found you a vaccine at {cent.name}, {cent.postcode}. Please attend at {cent.available_at}."
         send_mail('Vaxitrack', msg, settings.EMAIL_HOST_USER,
                     [self.email], fail_silently=False)
