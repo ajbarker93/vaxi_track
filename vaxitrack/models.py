@@ -20,8 +20,8 @@ class Counter(models.Model):
         c = cls.objects.all()
         assert len(c) == 1, 'there can only be one counter'
         c = c[0]
-        c.routes += centres
-        c.locations += vaccines
+        c.centres += centres
+        c.vaccines += vaccines
         c.patients += patients
         c.save()
 
@@ -121,7 +121,7 @@ class Centre(models.Model):
             tuple of (np.array), patients
         """
 
-        centre_loc = (self.latitude, self.longitude)
+        centre_loc = self.location
         pats = User.objects.all()
 
         # Filter patients by email
@@ -129,7 +129,7 @@ class Centre(models.Model):
 
         dists = np.zeros(len(pats), dtype=float32)
         for pat in enumerate(pats):
-            pat_loc = (pat.latitude, pat.longitude)
+            pat_loc = pat.location
             dists[pat] = np.linalg.norm(centre_loc - pat_loc, ord=2, axis=-1)
             in_range = (dists <= max_dist)
 
