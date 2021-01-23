@@ -145,8 +145,6 @@ class User(models.Model):
     longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
     assigned_centre_id = models.CharField(max_length=10,default='')
-    assigned_centre_postcode = models.CharField(max_length=10,default='')
-    assigned_centre_name = models.CharField(max_length=20,default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -203,7 +201,7 @@ class User(models.Model):
 
     def send_vax_email(self,centre_id):
 
-        cent = Centre.objects.filter(id=centre_id).get()
+        cent = Centre.objects.filter(id__exact=centre_id).get()
 
         msg = f"This is an email to a User. We have found you a vaccine at {cent.name}, {cent.postcode}. Please attend at {cent.available_at}."
         send_mail('Vaxitrack', msg, settings.EMAIL_HOST_USER,
