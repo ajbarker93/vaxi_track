@@ -41,8 +41,8 @@ def vaxpage(request):
         doses = data_dict['doses_available']
         ttime = data_dict['available_at']
         ttype = data_dict['vax_type']
-        iid = data_dict['vaxitrack_ID']
-        cent = Centre.objects.filter(vaxitrack_ID__exact=iid).get()
+        cid = data_dict['id']
+        cent = Centre.objects.get(id__exact=cid).get()
         cent.set_doses(doses)
         cent.set_time_available(ttime)
         cent.set_type(ttype)

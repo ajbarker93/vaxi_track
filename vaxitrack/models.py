@@ -43,33 +43,36 @@ class Centre(models.Model):
     # Set 0 to be oxford and 1 to be pfizer
     vax_type = models.IntegerField(default=0,choices=(('0','Oxford-AZ'),('1','Pfizer')))
     email = models.EmailField(null=True)
-    vaxitrack_ID = models.IntegerField(default='0')
     created_at = models.DateTimeField(auto_now_add=True)
     available_at = models.DateTimeField(null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     @classmethod
-    def create(cls, postcode, email):
+    def create(cls, name, postcode, email):
 
         if Centre.objects.filter(postcode__exact=postcode).filter(email__exact=email):
             raise ValueError("A centre with this postcode and email already exists")
 
         cent = cls()
-        lat_long = geocode(postcode)
         cent.email = email
+        cent.name = name 
+        lat_long = geocode(postcode)
         cent.latitude = lat_long[0]
         cent.longitude = lat_long[1]
         cent.postcode = postcode
         cent.save()
-        cent.VaxiTrack_ID = "%06d" % int(cent.id)
         cent.save()
         return cent
 
     def __repr__(self):
         s = (f"Centre id: {self.id}, postcode: {self.postcode}, "
             f"lat_long: {self.location}, email: {self.email},"
-            f"doses available: {self.doses_available}, vaxitrack_ID: {self.vaxitrack_ID}")
+            f"doses available: {self.doses_available}")
         return s
+
+    @property 
+    def vtid(self):
+        return f"{self.id:06d}"
 
     @property
     def location(self):
@@ -102,12 +105,12 @@ class Centre(models.Model):
         self.save()
 
     def log_email(self):
-        msg = f"This is an email to {self.name} with Centre ID {self.vaxitrack_ID}. You have logged {self.doses_available} doses of {self.vax_type} available at {self.available_at} today."
+        msg = f"This is an email to {self.name} with Centre ID {self.vtid}. You have logged {self.doses_available} doses of {self.vax_type} available at {self.available_at} today."
         send_mail('Vaxitrack', msg, settings.EMAIL_HOST_USER,
                     [self.email], fail_silently=False)
 
     def send_email(self):
-        msg = f"This is an email to a Centre. Your ID is {self.vaxitrack_ID}"
+        msg = f"This is an email to a Centre. Your ID is {self.vtid}"
         send_mail('Vaxitrack', msg, settings.EMAIL_HOST_USER,
                     [self.email], fail_silently=False)
 
