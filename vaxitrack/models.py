@@ -35,7 +35,7 @@ class Counter(models.Model):
 
 class Centre(models.Model):
 
-    doses_available = models.CharField(max_length=10, default='')
+    doses_available = models.IntegerField(validators=[validators.MinValueValidator(0)], default=0)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
@@ -44,7 +44,7 @@ class Centre(models.Model):
     email = models.EmailField(null=True)
     VaxiTrack_ID = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
-    available_at = models.CharField(max_length=30,default='')
+    available_at = models.DateTimeField(null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     @classmethod
@@ -137,7 +137,8 @@ class Centre(models.Model):
 
 
 class User(models.Model):
-    age = models.CharField(max_length=10,default='')
+
+    age = models.IntegerField(validators=[validators.MinValueValidator(0)], default=0)
     email = models.EmailField(null=True)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)

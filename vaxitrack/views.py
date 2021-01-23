@@ -14,7 +14,7 @@ from random import randint
 
 def index(request):
 
-    ncents, nvax, npat = Counter.read()
+    #ncents, nvax, npat = Counter.read()
     return render(request, "index.html")
 
 
