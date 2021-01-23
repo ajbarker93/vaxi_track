@@ -8,9 +8,7 @@ from django.template.loader import render_to_string
 
 from .models import Centre, User, Counter
 from .forms import LogForm, UserForm, RegForm
-
-import numpy as np
-from random import randint
+from .tasks import find_and_assign
 
 def index(request):
 
@@ -50,6 +48,9 @@ def vaxpage(request):
         cent.set_type(ttype)
         cent.log_email()
         form = LogForm()
+
+        # this is where you add the assign_doses task to the queue
+        # qtasks.async_task(find_and_assign, iid, doses)
 
     return render(request, "vaxpage.html", {'form': form})
 

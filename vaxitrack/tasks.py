@@ -1,8 +1,7 @@
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
-from . import core
-from models import Counter, User, Centre
+from .models import Counter, User, Centre
 
 
 # When a vax centre logs N vaccines, do the following:
@@ -20,30 +19,28 @@ from models import Counter, User, Centre
 # 7. Increment counter etc.
 
 
-def find_and_assign(data_dict):
+def find_and_assign(centre_id, n_doses):
 
-    # Find number and info on centre from which to assign
-    num_to_assign = data_dict['doses_available']
-    centre_id = data_dict['id']
+    # Find patient IDs within range of this centre
+    centre = Centre.get(id__exact=centre_id)
+    pids = centre.find_closest_patients(max_dist=0.1)
 
-    # Find emails of patients within range
-    emails = Centre.find_closest_patients(data_dict)
-
-    # Find users with those emails
-    pats = User.objects.filter(email__exact=emails)
-
-    # Descending sort the patients by age
-    pats_ordered = pats.order_by('-age')
-
-    # Choose the top N, depending on the number of doses
-    pats_selected = pats_ordered[:num_to_assign]
+    # Sort by age ASCENDING, select the last N 
+    pats = list(User.objects.in_bulk(pids).values())
+    pats = sorted(pats, key=lambda x: x.age)
+    pats = pats[-n_doses:]
 
     # Inform the selected patients they've been assigned to a centres
-    # Update assigned centre for pats_selected
-    pats_selected.assign_dose(centre_id)
-
-    # Send email to those with assigned centres
-    pats_selected.send_vax_email(centre_id)
+    # Any one of these could fail: catch and print, but don't let it crash 
+    # the overall task 
+    for pat in pats: 
+        try: 
+            pat.assign_dose(centre_id)
+            pat.send_vax_email(centre_id)
+        except Exception as e:
+            msg = f"Error assigning user {pat.id} to centre {centre_id}.\n"
+            msg += f"Original exception\n: {str(e)}"
+            raise RuntimeError(msg)
 
     # Increment the counter with assigned doses
-    #Counter.increment(len(routes), df.shape[0])
+    Counter.increment(centres=0, vaccines=n_doses, patients=0)

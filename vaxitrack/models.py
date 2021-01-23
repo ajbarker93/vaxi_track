@@ -16,7 +16,7 @@ class Counter(models.Model):
     patients = models.BigIntegerField(default=0)
 
     @classmethod
-    def increment(cls, centres, vaccines,patients):
+    def increment(cls, centres, vaccines, patients):
         c = cls.objects.all()
         assert len(c) == 1, 'there can only be one counter'
         c = c[0]
@@ -30,7 +30,7 @@ class Counter(models.Model):
         c = cls.objects.all()
         assert len(c) == 1, 'there can only be one counter'
         c = c[0]
-        return c.vaccines, c.centres, c.patients
+        return c.centres, c.vaccines, c.patients
 
 
 class Centre(models.Model):
@@ -119,22 +119,22 @@ class Centre(models.Model):
             max_dist (float): only search for patients below this radius
 
         Returns:
-            tuple of (np.array), patients
+            list of patient ids, sorted ascending
         """
 
         centre_loc = self.location
         pats = User.objects.all()
 
-        # Filter patients by email
-        emails = pats.email
+        plocs = np.zeros((len(pats), 2), dtype=np.float32)
+        pids = np.zeros(len(pats), dtype=int)
+        for idx,pat in enumerate(pats):
+            plocs[idx,:] = pat.location
+            pids[idx] = (pat.id)
 
-        dists = np.zeros(len(pats), dtype=np.float32)
-        for pat in enumerate(pats):
-            pat_loc = pat.location
-            dists[pat] = np.linalg.norm(centre_loc - pat_loc, ord=2, axis=-1)
-            in_range = (dists <= max_dist)
+        dists = np.linalg.norm(centre_loc - plocs, ord=2, axis=-1)
+        in_range = (dists <= max_dist)
 
-        return emails[in_range], dists[in_range]
+        return pids[in_range].tolist()
 
 
 class User(models.Model):
