@@ -10,13 +10,13 @@ class LogForm(forms.ModelForm):
 
     class Meta:
         model = Centre
-        fields = ('VaxiTrack_ID', 'available_at', 'doses_available','vax_type')
+        fields = ('vaxitrack_ID', 'available_at', 'doses_available', 'vax_type')
 
 class RegForm(forms.ModelForm):
 
     class Meta:
         model = Centre
-        fields = ('centre_name', 'postcode', 'email',)
+        fields = ('name', 'postcode', 'email',)
 
 class UserForm(forms.ModelForm):
 

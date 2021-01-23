@@ -39,11 +39,11 @@ class Centre(models.Model):
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
-    centre_name = models.CharField(max_length=30,default='')
+    name = models.CharField(max_length=30,default='')
     # Set 0 to be oxford and 1 to be pfizer
     vax_type = models.IntegerField(default=0,choices=(('0','Oxford-AZ'),('1','Pfizer')))
     email = models.EmailField(null=True)
-    VaxiTrack_ID = models.IntegerField(default='0')
+    vaxitrack_ID = models.IntegerField(default='0')
     created_at = models.DateTimeField(auto_now_add=True)
     available_at = models.DateTimeField(null=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -57,7 +57,7 @@ class Centre(models.Model):
         cent = cls()
         lat_long = geocode(postcode)
         vt_int = randint(1e5,1e6-1)
-        cent.VaxiTrack_ID = vt_int
+        cent.vaxitrack_ID = vt_int
         cent.email = email
         cent.latitude = lat_long[0]
         cent.longitude = lat_long[1]
@@ -68,7 +68,7 @@ class Centre(models.Model):
     def __repr__(self):
         s = (f"Centre id: {self.id}, postcode: {self.postcode}, "
             f"lat_long: {self.location}, email: {self.email},"
-            f"doses available: {self.doses_available}, VaxiTrack_ID: {self.VaxiTrack_ID}")
+            f"doses available: {self.doses_available}, vaxitrack_ID: {self.vaxitrack_ID}")
         return s
 
     @property
@@ -102,12 +102,12 @@ class Centre(models.Model):
         self.save()
 
     def log_email(self):
-        msg = f"This is an email to {self.centre_name} with Centre ID {self.VaxiTrack_ID}. You have logged {self.doses_available} doses of {self.vax_type} available at {self.available_at} today."
+        msg = f"This is an email to {self.name} with Centre ID {self.vaxitrack_ID}. You have logged {self.doses_available} doses of {self.vax_type} available at {self.available_at} today."
         send_mail('Vaxitrack', msg, settings.EMAIL_HOST_USER,
                     [self.email], fail_silently=False)
 
     def send_email(self):
-        msg = f"This is an email to a Centre. Your ID is {self.VaxiTrack_ID}"
+        msg = f"This is an email to a Centre. Your ID is {self.vaxitrack_ID}"
         send_mail('Vaxitrack', msg, settings.EMAIL_HOST_USER,
                     [self.email], fail_silently=False)
 
@@ -128,7 +128,7 @@ class Centre(models.Model):
         # Filter patients by email
         emails = pats.email
 
-        dists = np.zeros(len(pats), dtype=float32)
+        dists = np.zeros(len(pats), dtype=np.float32)
         for pat in enumerate(pats):
             pat_loc = pat.location
             dists[pat] = np.linalg.norm(centre_loc - pat_loc, ord=2, axis=-1)
@@ -144,9 +144,7 @@ class User(models.Model):
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
-    assigned_centre_id = models.CharField(max_length=10,default='')
-    assigned_centre_postcode = models.CharField(max_length=10,default='')
-    assigned_centre_name = models.CharField(max_length=20,default='')
+    assigned_centre_id = models.IntegerField(default=0, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -167,8 +165,12 @@ class User(models.Model):
         return u
 
     def __repr__(self):
+        if self.assigned_centre_id: 
+            cname = Centre.objects.get(self.assigned_centre_id).name
+        else: 
+            cname = "None"
         s = (f"User id: {self.id}, age: {self.age}, postcode: {self.postcode}, "
-            f"lat_long: {self.location}, assigned_centre: {self.assigned_centre}")
+            f"lat_long: {self.location}, assigned_centre: {cname}")
         return s
 
     @property
