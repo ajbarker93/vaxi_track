@@ -10,14 +10,15 @@
     </a>
     <h1>VaxiTrack</h1>
     <p>Log today's spare Covid-19 vaccines</p>
-    <form action="" target="" method="post" enctype="multipart/form-data" onsubmit="alert('Thank you for logging your vaccines.');">
+    <form action="" method="post" enctype="multipart/form-data" onsubmit="alert('Thank you for logging your vaccines.');">
         {% csrf_token %}
         <table>
             {{ form }}
         </table>
         <input type="submit" value="Submit" id="submit_button"
-      style="background-color:#7646c1; font-size:120%;" target="">
+      style="background-color:#7646c1; font-size:120%;">
     </form>
+    <p>Please use a 24hr time format, i.e 1500. Vax Type is Pfizer or Oxford-AZ.</p>
   </div>
 </div>
 

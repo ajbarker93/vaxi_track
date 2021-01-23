@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'vaxitrack',
-    'django_extensions'
+    'django_extensions',
+    'colorfield'
 ]
 
 MIDDLEWARE = [

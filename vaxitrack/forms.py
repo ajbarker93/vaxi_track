@@ -1,24 +1,25 @@
 from django import forms
 from django.template.defaultfilters import mark_safe
 
-class RegForm(forms.Form):
+import numpy as np
+from random import randint
 
-    cname = forms.CharField(label='Centre name', required=True, strip=True)
-    pc = forms.CharField(label='Postcode',
-                required=True, strip=True)
-    email =forms.CharField(label='NHS email',
-                required=True, help_text="Your login code will be sent to NHS.net email")
+from .models import Centre, User
 
-class LogForm(forms.Form):
+class LogForm(forms.ModelForm):
 
-    id = forms.CharField(label='VaxiTrack ID', required=True, strip=True)
-    doses_available = forms.CharField(label='Doses today',required=True, strip=True)
-    start_time = forms.CharField(label='Time available',required=True, strip=True)
-    type = forms.CharField(label='Vax type', required=True, strip=True, help_text="Use 24hr format, e.g. 1500. Vax type is Pfizer or Oxford-AZ",)
+    class Meta:
+        model = Centre
+        fields = ('VaxiTrack_ID', 'available_at', 'doses_available','vax_type')
 
-class UserForm(forms.Form):
+class RegForm(forms.ModelForm):
 
-    name = forms.CharField(label='Name',required=True, strip=True)
-    email = forms.CharField(label='Email address', required=True)
-    postcode = forms.CharField(label='Postcode', required=True)
-    age = forms.CharField(label='Age',required=True, help_text="We'll email you if a vaccine is available")
+    class Meta:
+        model = Centre
+        fields = ('centre_name', 'postcode', 'email',)
+
+class UserForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('email', 'postcode', 'age',)
