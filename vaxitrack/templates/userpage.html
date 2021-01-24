@@ -6,11 +6,11 @@
 <div class="jumbotron text-center">
   <div class="container">
     <a href="/" class="lang-logo">
-      <img src="{% static 'vt_logo_v1.png'%}"/>
+      <img src="{% static 'vt_logo_v2.png'%}"/>
     </a>
     <h1>VaxiTrack</h1>
     <p>Register for a local Covid-19 vaccine. Sign up below to be notified</p>
-    <form action="" method="post" enctype="multipart/form-data" onsubmit="alert('Thank you');">
+    <form action="" method="post" enctype="multipart/form-data" onsubmit="alert('Thank you for signing up. We'll let you know if we have a vaccine for you today. Otherwise, please try again tomorrow.');">
         {% csrf_token %}
         <table>
             {{ form }}

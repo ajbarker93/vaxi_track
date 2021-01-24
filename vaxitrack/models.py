@@ -35,17 +35,22 @@ class Counter(models.Model):
 
 class Centre(models.Model):
 
+    class VaxType(models.IntegerChoices):
+        OXFORD_ASTRAZENECA = 1
+        Pfizer = 2
+
     doses_available = models.IntegerField(validators=[validators.MinValueValidator(0)], default=0)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
     name = models.CharField(max_length=30,default='')
     # Set 0 to be oxford and 1 to be pfizer
-    vax_type = models.IntegerField(default=0,choices=(('0','Oxford-AZ'),('1','Pfizer')))
-    email = models.EmailField(null=True)
+    vax_type = models.IntegerField(default=1,choices=VaxType.choices)
+    email = models.EmailField(default='')
     created_at = models.DateTimeField(auto_now_add=True)
-    available_at = models.DateTimeField(null=True)
+    available_at = models.TimeField(null=True)
     updated_at = models.DateTimeField(auto_now=True)
+    VaxiTrack_ID = models.IntegerField(default=0)
 
     @classmethod
     def create(cls, name, postcode, email):
@@ -55,12 +60,13 @@ class Centre(models.Model):
 
         cent = cls()
         cent.email = email
-        cent.name = name 
+        cent.name = name
         lat_long = geocode(postcode)
         cent.latitude = lat_long[0]
         cent.longitude = lat_long[1]
         cent.postcode = postcode
         cent.save()
+        cent.VaxiTrack_ID = cent.id
         cent.save()
         return cent
 
@@ -70,7 +76,7 @@ class Centre(models.Model):
             f"doses available: {self.doses_available}")
         return s
 
-    @property 
+    @property
     def vtid(self):
         return f"{self.id:06d}"
 
@@ -105,13 +111,13 @@ class Centre(models.Model):
         self.save()
 
     def log_email(self):
-        msg = f"This is an email to {self.name} with Centre ID {self.vtid}. You have logged {self.doses_available} doses of {self.vax_type} available at {self.available_at} today."
-        send_mail('Vaxitrack', msg, settings.EMAIL_HOST_USER,
+        msg = f"Hi, this is VaxiTrack. This is an email to {self.name} with Centre ID {self.id}. You have logged {self.doses_available} doses available at {self.available_at} today. Thank you, VaxiTrack"
+        send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,
                     [self.email], fail_silently=False)
 
     def send_email(self):
-        msg = f"This is an email to a Centre. Your ID is {self.vtid}"
-        send_mail('Vaxitrack', msg, settings.EMAIL_HOST_USER,
+        msg = f"Hi, this is VaxiTrack. This is an email to {self.name}. Your VaxiTrack ID is {self.id}. Thanks, VaxiTrack"
+        send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,
                     [self.email], fail_silently=False)
 
     def find_closest_patients(self, max_dist=0.1):
@@ -168,9 +174,9 @@ class User(models.Model):
         return u
 
     def __repr__(self):
-        if self.assigned_centre_id: 
+        if self.assigned_centre_id:
             cname = Centre.objects.get(self.assigned_centre_id).name
-        else: 
+        else:
             cname = "None"
         s = (f"User id: {self.id}, age: {self.age}, postcode: {self.postcode}, "
             f"lat_long: {self.location}, assigned_centre: {cname}")
@@ -201,15 +207,11 @@ class User(models.Model):
         cent.save()
         self.save()
 
+        msg = f"Hi, this is VaxiTrack. We have found you a vaccine at {cent.name}, {cent.postcode}. Please attend at {cent.available_at} to receive your dose. Thank you, VaxiTrack"
+        send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,[self.email], fail_silently=False)
+
+
     def send_email(self):
-        msg = f"This is an email to a User. We will let you know if a dose is available today near {self.postcode} ."
-        send_mail('Vaxitrack', msg, settings.EMAIL_HOST_USER,
-                    [self.email], fail_silently=False)
-
-    def send_vax_email(self,centre_id):
-
-        cent = Centre.objects.filter(id__exact=centre_id).get()
-
-        msg = f"This is an email to a User. We have found you a vaccine at {cent.name}, {cent.postcode}. Please attend at {cent.available_at}."
-        send_mail('Vaxitrack', msg, settings.EMAIL_HOST_USER,
+        msg = f"Hi, this is VaxiTrack. We will let you know if a dose is available today near {self.postcode}. Thank you, VaxiTrack"
+        send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,
                     [self.email], fail_silently=False)

@@ -12,7 +12,8 @@ from .tasks import find_and_assign
 
 def index(request):
 
-    #ncents, nvax, npat = Counter.read()
+    #ncents,nvax,npats = Counter.read()
+    #return render(request, "index.html", {'ncents': f"{ncents:,}",'nvax': f"{nvax:,}"})
     return render(request, "index.html")
 
 
@@ -25,6 +26,7 @@ def userpage(request):
         pc = str(form['postcode'].value())
         email = str(form['email'].value())
         usr = User.create(pc,email,age)
+        #Counter.increment(centres=0, vaccines=0, patients=1)
         usr.send_email()
         form = UserForm()
 
@@ -36,21 +38,25 @@ def vaxpage(request):
     form = LogForm(request.POST)
 
     if form.is_valid():
-
         data_dict = form.cleaned_data
         doses = data_dict['doses_available']
         ttime = data_dict['available_at']
         ttype = data_dict['vax_type']
-        cid = data_dict['id']
-        cent = Centre.objects.get(id__exact=cid).get()
-        cent.set_doses(doses)
-        cent.set_time_available(ttime)
-        cent.set_type(ttype)
-        cent.log_email()
-        form = LogForm()
+        vtid = data_dict['VaxiTrack_ID']
+        cent = Centre.objects.filter(id__exact=vtid).get()
+
+        if cent.id > 0:
+            cent.set_doses(doses)
+            cent.set_time_available(ttime)
+            cent.set_type(ttype)
+            cent.log_email()
+        else:
+            raise ValueError("No centre with that ID is recognised.")
 
         # this is where you add the assign_doses task to the queue
-        # qtasks.async_task(find_and_assign, iid, doses)
+        qtasks.async_task(find_and_assign, cent.id, doses)
+
+        form = LogForm()
 
     return render(request, "vaxpage.html", {'form': form})
 
@@ -61,9 +67,11 @@ def regpage(request):
 
     if form.is_valid():
         data_dict = form.cleaned_data
+        name = data_dict['name']
         pc = data_dict['postcode']
         email = data_dict['email']
-        cent = Centre.create(pc,email)
+        cent = Centre.create(name,pc,email)
+        #Counter.increment(centres=1, vaccines=0, patients=0)
         cent.send_email()
         form = RegForm()
 

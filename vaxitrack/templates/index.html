@@ -6,18 +6,17 @@
 <div class="jumbotron text-center">
   <div class="container">
     <a href="/" class="lang-logo">
-      <img src="{% static 'vt_logo_v1.png'%}"/>
+      <img src="{% static 'vt_logo_v2.png'%}"/>
     </a>
     <h1>VaxiTrack</h1>
     <p>Find a spare Covid-19 vaccine</p>
-    <p>So far, {{ ncents }} centres have logged {{ nvax }} vaccines.</p>
     <a type="button" class="btn btn-lg btn-white" href="/userpage"><span class="glyphicon glyphicon-flash"></span> Find a vaccine</a>
     <a type="button" class="btn btn-lg btn-primary" href="/vaxpage"><span class="glyphicon glyphicon-download"></span> Log spare vaccines</a>
   </div>
+  <p>So far, {{ ncents }} centres have logged {{ nvax }} vaccines.</p>
 </div>
-<hr>
 <div class="img-container">
-  <img src="static/ox_map_v1.png"/>
+  <img src="{% static 'ox_map_v1.png' %}"/>
 </div>
 <hr>
 <div class="container">

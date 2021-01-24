@@ -10,7 +10,7 @@ class LogForm(forms.ModelForm):
 
     class Meta:
         model = Centre
-        fields = ('id', 'available_at', 'doses_available', 'vax_type')
+        fields = ('VaxiTrack_ID', 'available_at', 'doses_available', 'vax_type')
 
 class RegForm(forms.ModelForm):
 
