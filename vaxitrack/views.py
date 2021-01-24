@@ -12,9 +12,8 @@ from .tasks import find_and_assign
 
 def index(request):
 
-    #ncents,nvax,npats = Counter.read()
-    #return render(request, "index.html", {'ncents': f"{ncents:,}",'nvax': f"{nvax:,}"})
-    return render(request, "index.html")
+    ncents,nvax,npats = Counter.read()
+    return render(request, "index.html", {'ncents': f"{ncents:,}",'nvax': f"{nvax:,}"})
 
 
 def userpage(request):
@@ -26,7 +25,7 @@ def userpage(request):
         pc = str(form['postcode'].value())
         email = str(form['email'].value())
         usr = User.create(pc,email,age)
-        #Counter.increment(centres=0, vaccines=0, patients=1)
+        Counter.increment(centres=0, vaccines=0, patients=1)
         usr.send_email()
         form = UserForm()
 

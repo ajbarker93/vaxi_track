@@ -3,7 +3,6 @@ from django.template.loader import render_to_string
 
 from .models import Counter, User, Centre
 
-
 # When a vax centre logs N vaccines, do the following:
 
 # 1. Find separation between centre and all users in the db. One degree of latitude/longitude is 111km, so:
@@ -22,19 +21,30 @@ def find_and_assign(centre_id, n_doses):
 
     # Find patient IDs within range of this centre
     centre = Centre.objects.get(id__exact=centre_id)
-    pids = centre.find_closest_patients(max_dist=10)
+    pids = centre.find_closest_patients(0.1)
 
     # Sort by age ASCENDING, select the last N
     pats = User.objects.in_bulk(pids).values()
+
+    if not pats:
+        return
+
     pats = sorted(pats, key=lambda x: x.age)
     pats = pats[-n_doses:]
-    pat = pats[0]
-    try:
-        pat.assign_dose(centre_id)
-    except Exception as e:
-        msg = f"Error assigning user {pat.id} to centre {centre_id}.\n"
-        msg += f"Original exception\n: {str(e)}"
-        print(msg)
+
+    success = []
+    for idx,pat in enumerate(pats):
+
+        try:
+            pat.assign_dose(centre_id)
+            success.append(idx)
+        except Exception as e:
+            msg = f"Error assigning user {pat.id} to centre {centre_id}.\n"
+            msg += f"Original exception\n: {str(e)}"
+            print(msg)
+
+    emails = [pats[ss].email for ss in success]
+    centre.send_pat_email(emails)
 
     # Increment the counter with assigned doses
-    # Counter.increment(centres=0, vaccines=n_doses, patients=0)
+    Counter.increment(centres=0, vaccines=n_doses, patients=0)

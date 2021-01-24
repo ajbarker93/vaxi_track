@@ -44,7 +44,6 @@ class Centre(models.Model):
     longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
     name = models.CharField(max_length=30,default='')
-    # Set 0 to be oxford and 1 to be pfizer
     vax_type = models.IntegerField(default=1,choices=VaxType.choices)
     email = models.EmailField(default='')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -120,7 +119,12 @@ class Centre(models.Model):
         send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,
                     [self.email], fail_silently=False)
 
-    def find_closest_patients(self, max_dist=0.1):
+    def send_pat_email(self,emails):
+            msg = f"Hi, this is VaxiTrack. This is an email to {self.name}. We have assigned your doses to patients with the following email address: {emails}. Thanks, VaxiTrack"
+            send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,
+                        [self.email], fail_silently=False)
+
+    def find_closest_patients(self,max_dist):
         """
         Returns patients within max_dist from the centre
 
@@ -132,7 +136,7 @@ class Centre(models.Model):
         """
 
         centre_loc = self.location
-        pats = User.objects.all()
+        pats = User.objects.filter(assigned_centre_id__lt=1)
 
         plocs = np.zeros((len(pats), 2), dtype=np.float32)
         pids = np.zeros(len(pats), dtype=int)
@@ -153,7 +157,7 @@ class User(models.Model):
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
     postcode = models.CharField(max_length=10)
-    assigned_centre_id = models.IntegerField(default=0, null=True)
+    assigned_centre_id = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -175,7 +179,7 @@ class User(models.Model):
 
     def __repr__(self):
         if self.assigned_centre_id:
-            cname = Centre.objects.get(self.assigned_centre_id).name
+            cname = Centre.objects.get(id__exact=self.assigned_centre_id).name
         else:
             cname = "None"
         s = (f"User id: {self.id}, age: {self.age}, postcode: {self.postcode}, "
