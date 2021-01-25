@@ -6,6 +6,9 @@ def run():
     Centre.objects.all().delete()
     Counter.objects.all().delete()
 
+    c = Counter()
+    c.save()
+
     c = Centre.create("Stable","OX13BH", "ajbarker93@gmail.com")
     c.doses_available = 2
     c.available_at = '16:00'
@@ -19,6 +22,3 @@ def run():
     User.create("OX37DQ", "heather.c_94@hotmail.co.uk", 27)
     User.create("OX39DU", "vaximap@gmail.com", 26)
     User.create("OX20HH", "ajbarker93@gmail.com", 29)
-
-    c = Counter()
-    c.save()

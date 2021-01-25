@@ -47,4 +47,4 @@ def find_and_assign(centre_id, n_doses):
     centre.send_pat_email(emails)
 
     # Increment the counter with assigned doses
-    Counter.increment(centres=0, vaccines=n_doses, patients=0)
+    Counter.increment(centres=1, vaccines=n_doses, patients=0)

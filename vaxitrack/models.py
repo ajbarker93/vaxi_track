@@ -67,7 +67,12 @@ class Centre(models.Model):
         cent.save()
         cent.VaxiTrack_ID = cent.id
         cent.save()
+
+        # increment counter
+        Counter.increment(centres=1, vaccines=0, patients=0)
+
         return cent
+
 
     def __repr__(self):
         s = (f"Centre id: {self.id}, postcode: {self.postcode}, "
@@ -90,7 +95,11 @@ class Centre(models.Model):
         Not to be used for matching users to centres
         """
 
+        # increment counter
+        Counter.increment(centres=0, vaccines=1, patients=0)
+
         self.doses_available = new_value
+
         self.save()
 
     def set_time_available(self, new_value):
@@ -183,7 +192,7 @@ class User(models.Model):
         else:
             cname = "None"
         s = (f"User id: {self.id}, age: {self.age}, postcode: {self.postcode}, "
-            f"lat_long: {self.location}, assigned_centre: {cname}")
+            f"lat_long: {self.location}, assigned_centre: {cname}, email: {self.email},")
         return s
 
     @property
@@ -213,6 +222,23 @@ class User(models.Model):
 
         msg = f"Hi, this is VaxiTrack. We have found you a vaccine at {cent.name}, {cent.postcode}. Please attend at {cent.available_at} to receive your dose. Thank you, VaxiTrack"
         send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,[self.email], fail_silently=False)
+
+    def purge_end_of_day():
+        """
+        Remove all patients at end of day
+
+        Args: None
+        Raises: email to purged users to tell them they haven't been successful today
+
+        """
+
+        pats = User.objects.filter(assigned_centre_id__lt=1)
+
+        for pat in pats:
+            msg = f"Hi, this is VaxiTrack. We have been unable to find you a dose near {pat.postcode} today. Please try again tomorrow, as centres log spare vaccines everyday. Thanks, VaxiTrack"
+            send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,[pat.email], fail_silently=False)
+
+        pats.delete()
 
 
     def send_email(self):

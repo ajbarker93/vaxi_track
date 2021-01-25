@@ -10,7 +10,7 @@
     </a>
     <h1>VaxiTrack</h1>
     <p>Log today's spare Covid-19 vaccines</p>
-    <form action="" method="post" enctype="multipart/form-data" onsubmit="alert('Thank you for logging your vaccines.');">
+    <form action="" method="post" enctype="multipart/form-data" autocomplete="off" onsubmit="alert('Thank you for logging your vaccines.');">
         {% csrf_token %}
         <table>
             {{ form }}
