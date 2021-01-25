@@ -1,4 +1,4 @@
-from vaxitrack.models import User, Centre
+from vaxitrack.models import User, Centre, Counter
 
 def run():
 

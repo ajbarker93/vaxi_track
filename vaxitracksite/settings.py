@@ -18,28 +18,25 @@ import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.path.exists('keys.json'):
-    keys = json.load(open('keys.json', 'r'))
-    SECRET_KEY = keys['SECRET_KEY']
-    GAPI_KEY = keys['GAPI_KEY']
-    EMAIL_HOST_PASSWORD = keys['GMAIL_KEY']
-    REDIS_URL = 'localhost'
-    DEBUG = True
-else:
-    SECRET_KEY = os.environ['SECRET_KEY']
-    GAPI_KEY = os.environ['GAPI_KEY']
-    EMAIL_HOST_PASSWORD = os.environ['GMAIL_KEY']
-    REDIS_URL = os.environ['REDIS_URL']
-    DEBUG = False
-
+#if os.path.exists('keys.json'):
+#    keys = json.load(open('keys.json', 'r'))
+#    SECRET_KEY = keys['SECRET_KEY']
+#    GAPI_KEY = keys['GAPI_KEY']
+#    EMAIL_HOST_PASSWORD = keys['GMAIL_KEY']
+#    REDIS_URL = 'localhost'
+#    DEBUG = False
+#else:
+SECRET_KEY = os.environ['SECRET_KEY']
+GAPI_KEY = os.environ['GAPI_KEY']
+EMAIL_HOST_PASSWORD = os.environ['GMAIL_KEY']
+REDIS_URL = os.environ['REDIS_URL']
+DEBUG = False
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -84,7 +81,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'vaxitracksite.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -148,18 +144,18 @@ TASK_TIMEOUT = 30
 Q_CLUSTER = {
     'name': 'vaxitrack_queue',
     'workers': 2,   # number of worker processes
-    'timeout': TASK_TIMEOUT,  # max time a worker can spend on a single task     
+    'timeout': TASK_TIMEOUT,  # max time a worker can spend on a single task
     'retry': TASK_TIMEOUT+1,  # time to wait for a worker to complete a task before submitting task again
-    'queue_limit': 20,  # max items in queue 
-    'save_limit': 0,  # max items in success queue 
+    'queue_limit': 20,  # max items in queue
+    'save_limit': 0,  # max items in success queue
     'recycle': 50,    # restart each worker after N jobs to release memory
     'ack_failures': True,   # tasks that return failure will be removed from queue
     'max_attemps': 1,       # how many times to attempt a task (NB 0 means inf)
     'sync': DEBUG,           # set true to force sync execution in debug
 }
 
-# Queue is held on a redis server 
-if DEBUG: 
+# Queue is held on a redis server
+if DEBUG:
     Q_CLUSTER['redis'] = {
         'host': REDIS_URL,
         'port': 6379,
@@ -170,7 +166,7 @@ if DEBUG:
         'errors': 'strict',
         'unix_socket_path': None
     }
-else: 
+else:
     Q_CLUSTER['redis'] = REDIS_URL
 
 # Activate Django-Heroku. Needs to come last.
