@@ -22,19 +22,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#if os.path.exists('keys.json'):
-#    keys = json.load(open('keys.json', 'r'))
-#    SECRET_KEY = keys['SECRET_KEY']
-#    GAPI_KEY = keys['GAPI_KEY']
-#    EMAIL_HOST_PASSWORD = keys['GMAIL_KEY']
-#    REDIS_URL = 'localhost'
-#    DEBUG = False
-#else:
-SECRET_KEY = os.environ['SECRET_KEY']
-GAPI_KEY = os.environ['GAPI_KEY']
-EMAIL_HOST_PASSWORD = os.environ['GMAIL_KEY']
-REDIS_URL = os.environ['REDIS_URL']
-DEBUG = False
+if os.path.exists('keys.json'):
+    keys = json.load(open('keys.json', 'r'))
+    SECRET_KEY = keys['SECRET_KEY']
+    GAPI_KEY = keys['GAPI_KEY']
+    EMAIL_HOST_PASSWORD = keys['GMAIL_KEY']
+    REDIS_URL = 'localhost'
+    DEBUG = True
+else:
+    SECRET_KEY = os.environ['SECRET_KEY']
+    GAPI_KEY = os.environ['GAPI_KEY']
+    EMAIL_HOST_PASSWORD = os.environ['GMAIL_KEY']
+    REDIS_URL = os.environ['REDIS_URL']
+    DEBUG = True
 
 ALLOWED_HOSTS = []
 
