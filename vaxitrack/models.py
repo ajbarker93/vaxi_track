@@ -89,7 +89,7 @@ class Centre(models.Model):
         """
 
         # increment counter
-        Counter.increment(centres=0, vaccines=1, patients=0)
+        Counter.increment(centres=0, vaccines=new_value, patients=0)
 
         self.doses_available = new_value
 
