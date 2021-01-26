@@ -68,9 +68,6 @@ class Centre(models.Model):
         cent.VaxiTrack_ID = cent.id
         cent.save()
 
-        # increment counter
-        Counter.increment(centres=1, vaccines=0, patients=0)
-
         return cent
 
 
@@ -79,10 +76,6 @@ class Centre(models.Model):
             f"lat_long: {self.location}, email: {self.email},"
             f"doses available: {self.doses_available}")
         return s
-
-    @property
-    def vtid(self):
-        return f"{self.id:06d}"
 
     @property
     def location(self):
@@ -119,17 +112,20 @@ class Centre(models.Model):
         self.save()
 
     def log_email(self):
-        msg = f"Hi, this is VaxiTrack. This is an email to {self.name} with Centre ID {self.id}. You have logged {self.doses_available} doses available at {self.available_at} today. Thank you, VaxiTrack"
+        id_long = '%06d' % self.id
+        msg = f"Hi, this is VaxiTrack. This is an email to {self.name} with Centre ID {id_long}. You have logged {self.doses_available} doses available at {self.available_at} today. Thank you, VaxiTrack"
         send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,
                     [self.email], fail_silently=False)
 
     def send_email(self):
-        msg = f"Hi, this is VaxiTrack. This is an email to {self.name}. Your VaxiTrack ID is {self.id}. Thanks, VaxiTrack"
+        id_long = '%06d' % self.id
+        msg = f"Hi, this is VaxiTrack. This is an email to {self.name}. Your VaxiTrack ID is {id_long}. Thanks, VaxiTrack"
         send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,
                     [self.email], fail_silently=False)
 
     def send_pat_email(self,emails):
-            msg = f"Hi, this is VaxiTrack. This is an email to {self.name}. We have assigned your doses to patients with the following email address: {emails}. Thanks, VaxiTrack"
+            id_long = '%06d' % self.id
+            msg = f"Hi, this is VaxiTrack. This is an email to {self.name} with Centre ID {id_long}. We have assigned your doses to patients with the following email address: {emails}. Thanks, VaxiTrack"
             send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,
                         [self.email], fail_silently=False)
 
@@ -222,23 +218,6 @@ class User(models.Model):
 
         msg = f"Hi, this is VaxiTrack. We have found you a vaccine at {cent.name}, {cent.postcode}. Please attend at {cent.available_at} to receive your dose. Thank you, VaxiTrack"
         send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,[self.email], fail_silently=False)
-
-    def purge_end_of_day():
-        """
-        Remove all patients at end of day
-
-        Args: None
-        Raises: email to purged users to tell them they haven't been successful today
-
-        """
-
-        pats = User.objects.filter(assigned_centre_id__lt=1)
-
-        for pat in pats:
-            msg = f"Hi, this is VaxiTrack. We have been unable to find you a dose near {pat.postcode} today. Please try again tomorrow, as centres log spare vaccines everyday. Thanks, VaxiTrack"
-            send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,[pat.email], fail_silently=False)
-
-        pats.delete()
 
 
     def send_email(self):

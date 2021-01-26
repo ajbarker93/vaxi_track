@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <a href="/" class="lang-logo">
+      <img src="{% static 'vt_logo_v2.png'%}"/>
+    </a>
+    <h1>Success</h1>
+    <p>Please check your emails confirming your log. Spread the word!</p>
+  </div>
+</div>
+<div class="img-container">
+  <img src="{% static 'ox_map_v1.png' %}"/>
+</div>
+<hr>
+<div class="container">
+  <div class="alert alert-info text-center" role="alert">
+    To view the source on Github, and learn about how we manage your data, <a href="https://github.com/ajbarker93/vaxi_track" class="alert-link">click here</a>.
+  </div>
+  <hr>
+</div>
+{% include 'small_footer.html' %}
+{% endblock %}

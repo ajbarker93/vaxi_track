@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.conf import settings
 from django_q import tasks as qtasks
@@ -16,6 +16,11 @@ def index(request):
     return render(request, "index.html", {'ncents': f"{ncents:,}",'nvax': f"{nvax:,}"})
 
 
+def success(request):
+
+    return render(request, "success.html")
+
+
 def userpage(request):
 
     form = UserForm(request.POST)
@@ -28,6 +33,7 @@ def userpage(request):
         Counter.increment(centres=0, vaccines=0, patients=1)
         usr.send_email()
         form = UserForm()
+        return redirect('success')
 
     return render(request, "userpage.html", {'form': form})
 
@@ -42,6 +48,7 @@ def vaxpage(request):
         ttime = data_dict['available_at']
         ttype = data_dict['vax_type']
         vtid = data_dict['VaxiTrack_ID']
+        vtid = int(vtid)
         cent = Centre.objects.filter(id__exact=vtid).get()
 
         if cent.id > 0:
@@ -49,6 +56,7 @@ def vaxpage(request):
             cent.set_time_available(ttime)
             cent.set_type(ttype)
             cent.log_email()
+            #redirect('app:success')
         else:
             raise ValueError("No centre with that ID is recognised.")
 
@@ -56,6 +64,7 @@ def vaxpage(request):
         qtasks.async_task(find_and_assign, cent.id, doses)
 
         form = LogForm()
+        return redirect('success')
 
     return render(request, "vaxpage.html", {'form': form})
 
@@ -70,9 +79,9 @@ def regpage(request):
         pc = data_dict['postcode']
         email = data_dict['email']
         cent = Centre.create(name,pc,email)
-        #Counter.increment(centres=1, vaccines=0, patients=0)
         cent.send_email()
         form = RegForm()
+        return redirect('success')
 
 
     return render(request, "regpage.html", {'form': form})
