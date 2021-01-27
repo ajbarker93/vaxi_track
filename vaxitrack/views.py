@@ -5,6 +5,7 @@ from django_q import tasks as qtasks
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from markdown import markdown
 
 from .models import Centre, User, Counter
 from .forms import LogForm, UserForm, RegForm
@@ -19,6 +20,18 @@ def index(request):
 def success(request):
 
     return render(request, "success.html")
+
+def aboutus(request):
+    md = open('vaxitrack/static/about_us.md').read()
+    return render(request, "markdown.html",{'content': markdown(md)})
+
+def userguide(request):
+    md = open('vaxitrack/static/user_guide.md').read()
+    return render(request, "markdown.html",{'content': markdown(md)})
+
+def centreguide(request):
+    md = open('vaxitrack/static/centre_guide.md').read()
+    return render(request, "markdown.html",{'content': markdown(md)})
 
 
 def userpage(request):

@@ -18,4 +18,9 @@ def run():
         msg = f"Hi, this is VaxiTrack. We have been unable to find you a dose near {pat['postcode']} today. Please try again tomorrow, as centres log spare vaccines everyday. Thanks, VaxiTrack"
         send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,[pat['email']], fail_silently=False)
 
+    cents = Centre.objects.all()
+    for idx,cent in enumerate(cents):
+        cent.doses_available = 0
+        cent.available_at = ''
+
     pats.delete()

@@ -7,3 +7,4 @@ django-extensions
 django-utils
 redis
 django-q
+markdown

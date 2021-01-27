@@ -1,8 +1,8 @@
-# Vaccine centre guide for VaxiTrack
+# Vaccination Centre guide for using VaxiTrack
 
 Here are the steps to follow when logging a vaccine:
 
-Have you signed up as a centre? If not:
+Have you already signed up as a centre? If not:
 
 * Go to VaxiTrack
 * Click "Register as a centre"

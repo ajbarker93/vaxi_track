@@ -9,4 +9,7 @@ urlpatterns = [
     path('vaxpage/', views.vaxpage, name="vaxpage"),
     path('regpage/', views.regpage, name="regpage"),
     path('success/', views.success, name="success"),
+    path('aboutus/', views.aboutus, name='aboutus'),
+    path('userguide/', views.userguide, name='userguide'),
+    path('centreguide/', views.centreguide, name='centreguide'),
 ]

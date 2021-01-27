@@ -1,4 +1,4 @@
-# User guide for VaxiTrack
+# Patient guide for using VaxiTrack
 
 Here are the steps to follow when looking for a local vaccine:
 
