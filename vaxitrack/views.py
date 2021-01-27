@@ -60,6 +60,9 @@ def vaxpage(request):
         else:
             raise ValueError("No centre with that ID is recognised.")
 
+        # Increment the counter with logged doses
+        Counter.increment(centres=1, vaccines=doses, patients=0)
+
         # this is where you add the assign_doses task to the queue
         qtasks.async_task(find_and_assign, cent.id, doses)
 
