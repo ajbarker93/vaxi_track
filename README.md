@@ -2,14 +2,6 @@
 
 This is a very simple app that has been built quickly. If you think it could be improved, please feel free to make changes to the code.
 
-## To Do:
-
-- Produce random centre ID when centre signs up
-- When a centre logs, check the ID is in our list of IDs before adding. For security reasons, we shouldn't store the centre email, rather just check the centre ID is in our list (and hope for the best at this stage).
-- Add a 'select' button next to the vaccine centre entries. Then go to a 'confirm' page where the user types in their email to select the centre.
-- Generally hooking everything up.
-
-
 
 ## Overview
 
@@ -25,7 +17,7 @@ This is a django website that logs spare vaccine information provided by vaccine
 
 
 ## License and copyright
-Licensing is TBD, but the site may freely be used at XXX.
+Licensing is TBD, but the site may freely be used at http://vaxi-track.herokuapp.com/.
 Copyright is asserted over all code contained within this repo (AJ Barker, RMT Staruch, TF Kirk, 2021).
 
 
@@ -37,26 +29,5 @@ To load dummy data into the db, run:
 ```
 $ python manage.py runscript dummy
 ```
-To launch a server db and put some data in it, first:
-```
-$ python manage.py migrate
-$ python manage.py shell
-```
-then:
-```python
-from vaxitrack.models import User, Centre
-c = Centre()
-c.postcode = "OX13BH"
-c.doses_available = 5
-c.email = "ajbarker93@gmail.com"
-c.save()
 
-u = User()
-u.postcode = "OX14AU"
-u.email = "ajbarker93@gmail.com"
-u.save()
-```
-
-then exit the shell.
-
-Run "python manage.py runserver" to launch a server. Open the URL.
+then exit the shell. Run "python manage.py runserver" to launch a server. Open the URL.
