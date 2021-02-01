@@ -15,7 +15,7 @@ def run():
     pats = User.objects.filter(assigned_centre_id__lt=1)
     pp = pats.values()
     for idx,pat in enumerate(pp):
-        msg = f"Hi, this is VaxiTrack. We have been unable to find you a dose near {pat['postcode']} today. Please try again tomorrow, as centres log spare vaccines everyday. Thanks, VaxiTrack"
+        msg = f"Hi, this is VaxiTrack. We have been unable to find you a dose near {pat['postcode']} today. We're still very young, and are hoping to onboard many more vaccination centres in due course. Thank you for your patients and please try again tomorrow. Thanks, VaxiTrack"
         send_mail('VaxiTrack', msg, settings.EMAIL_HOST_USER,[pat['email']], fail_silently=False)
 
     cents = Centre.objects.all()
