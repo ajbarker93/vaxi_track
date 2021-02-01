@@ -42,6 +42,7 @@ def userpage(request):
         age = str(form['age'].value())
         pc = str(form['postcode'].value())
         email = str(form['email'].value())
+        kw = str(form['email'].value())
         usr = User.create(pc,email,age)
         Counter.increment(centres=0, vaccines=0, patients=1)
         usr.send_email()

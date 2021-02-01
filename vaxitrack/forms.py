@@ -22,4 +22,4 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'postcode', 'age',)
+        fields = ('email', 'postcode', 'age','key_worker')

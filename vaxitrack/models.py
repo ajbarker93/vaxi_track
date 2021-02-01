@@ -165,6 +165,7 @@ class User(models.Model):
     assigned_centre_id = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    key_worker = models.BooleanField(default=0)
 
     @classmethod
     def create(cls, postcode, email, age):
